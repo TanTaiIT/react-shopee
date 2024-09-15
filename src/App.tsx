@@ -11,11 +11,9 @@ const queryClient = new QueryClient({
 function App() {
   const routerElement = userRouteElement()
   return (
-    <div>
-      <QueryClientProvider client={queryClient}>
-        {routerElement}
-      </QueryClientProvider>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      {routerElement}
+    </QueryClientProvider>
   )
 }
 

@@ -1,7 +1,9 @@
+import { useContext } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import authApi from "../apis/auth.api"
 import { useNavigate } from "react-router-dom"
+import { AppContext } from "../context/app.context"
 
 interface formData {
   email: string
@@ -10,6 +12,7 @@ interface formData {
 export default function Login() {
   const { register, setError, handleSubmit, formState: { errors } } = useForm<formData>()
   const navigate = useNavigate()
+  const { setIsAuthenticated } = useContext(AppContext)
   const loginMutation = useMutation({
     mutationFn: (body: { email: string, password: string }) => authApi.loginAccount(body)
   })
@@ -17,6 +20,7 @@ export default function Login() {
   const handleSubmitData = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
+        setIsAuthenticated(true)
         navigate('/')
       }
     })

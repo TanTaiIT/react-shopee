@@ -9,5 +9,5 @@ export default function isAxiosUnprocessableEntityError<FormData>(error: unknown
 }
 
 export const getAvatarUrl = (avartar?: string) => {
-  return `${config.baseUrl}/images/${avartar}` || ''
+  return `${config.baseUrl}images/${avartar}` || ''
 }
