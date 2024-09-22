@@ -4,6 +4,9 @@ import productApi from "../apis/product.api"
 import { ProductListConfig } from "../types/product.type"
 import AsideFilter from "../components/AsideFilter"
 import categoryApi from "../apis/categories.api"
+import SortProductList from "../components/SortProductList"
+import Product from './../components/Product'
+// import Pagination from "../components/Pagination"
 const ProductList = () => {
   const queryConfig = useQueryConfig()
   const { data: productData } = useQuery({
@@ -28,7 +31,21 @@ const ProductList = () => {
               <AsideFilter categories={categoryData?.data?.data || []} queryConfig={queryConfig} />
             </div>
             <div className='col-span-9'>
-              product list
+              <SortProductList queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} />
+
+              <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                {
+                  productData.data.data.products.map((product) => {
+                    return (
+                      <div className='col-span-1' key={product._id}>
+                        <Product product={product} />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+
+              {/* <Pagination queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} /> */}
             </div>
           </div>
         )}

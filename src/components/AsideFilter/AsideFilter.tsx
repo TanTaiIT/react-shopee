@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { createSearchParams, Link } from "react-router-dom"
 import { Category } from "../../types/category.type"
 import { queryConfig } from "../../hook/useQueryConfig"
 import classNames from "classnames"
@@ -7,6 +7,7 @@ import { NoUndefindFields } from "../../types/utils"
 import { ProductListConfig } from "../../types/product.type"
 import InputNumber from "../InputNumber"
 import Button from "../Button"
+import RatingStart from "../RatingStart"
 interface AsideFilterPropsType {
   categories?: Category[]
   queryConfig: queryConfig
@@ -29,7 +30,6 @@ const AsideFilter = (props: AsideFilterPropsType) => {
       price_max: ''
     }
   })
-  console.log('error', errors)
   return (
     <div className='py-4'>
       <Link to='/' className='flex items-center font-bold'>
@@ -57,7 +57,11 @@ const AsideFilter = (props: AsideFilterPropsType) => {
             return (
               <li className='py-2 pl-2' key={item._id}>
                 <Link to={{
-                  pathname: '/'
+                  pathname: '/ProductList',
+                  search: createSearchParams({
+                    ...queryConfig,
+                    category: item._id
+                  }).toString()
                 }}
                   className={classNames('relative px-2', {
                     'font-semibold text-orange': isActive
@@ -160,6 +164,13 @@ const AsideFilter = (props: AsideFilterPropsType) => {
       <div className='my-4 h-[1px] bg-gray-300' />
       <div className='text-sm'>Đánh giá</div>
 
+      <RatingStart queryConfig={queryConfig} />
+
+      <div className='h-[1px] my-4 bg-gray-300'>
+        <Button className='w-full items-center flex justify-center bg-orange-400 text-sm uppercase text-white hover:bg-orange/80'>
+          Delete All
+        </Button>
+      </div>
     </div>
   )
 }
